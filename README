@@ -1,0 +1,137 @@
+# FIPE 
+
+```bash
+# =========================================
+# 📌 DESCRIÇÃO
+# =========================================
+# Aplicação web para consulta de preços de veículos
+# utilizando a API pública da FIPE (Brasil API).
+# Fluxo guiado: Tipo → Marca → Modelo → Ano → Resultado
+
+```
+
+```bash
+# =========================================
+# ⚙️ FUNCIONALIDADES
+# =========================================
+# ✔ Seleção de tipo de veículo
+# ✔ Carregamento dinâmico de marcas
+# ✔ Carregamento dinâmico de modelos
+# ✔ Carregamento dinâmico de anos
+# ✔ Consulta de preço em tempo real
+# ✔ Interface simples e leve
+# ✔ Sem necessidade de backend
+
+```
+
+```bash
+# =========================================
+# 🛠️ TECNOLOGIAS
+# =========================================
+# - HTML5
+# - CSS3
+# - JavaScript (Vanilla)
+# - API REST (Brasil API)
+
+```
+
+```bash
+# =========================================
+# 🔌 API
+# =========================================
+# Base URL:
+# https://brasilapi.com.br/api/fipe/v1
+#
+# Endpoints utilizados:
+#
+# GET /{tipo}/marcas
+# GET /{tipo}/marcas/{codigo}/modelos
+# GET /{tipo}/marcas/{codigo}/modelos/{codigo}/anos
+# GET /{tipo}/marcas/{codigo}/modelos/{codigo}/anos/{codigo}
+#
+# Onde:
+# tipo = carros | motos | caminhoes
+
+```
+
+```bash
+# =========================================
+# ▶️ COMO EXECUTAR
+# =========================================
+# 1. Salve o arquivo como:
+#    index.html
+#
+# 2. Abra no navegador:
+#    clique duas vezes OU use live server
+#
+# 3. Pronto 🚀
+#    Nenhuma instalação necessária
+
+```
+
+```bash
+# =========================================
+# 🧠 FLUXO DO SISTEMA
+# =========================================
+# [Tipo selecionado]
+#        ↓
+# [Carrega Marcas via API]
+#        ↓
+# [Seleciona Marca]
+#        ↓
+# [Carrega Modelos]
+#        ↓
+# [Seleciona Modelo]
+#        ↓
+# [Carrega Anos]
+#        ↓
+# [Seleciona Ano]
+#        ↓
+# [Botão ativa]
+#        ↓
+# [Consulta preço]
+#        ↓
+# [Exibe resultado]
+
+```
+
+```bash
+# =========================================
+# 📂 ESTRUTURA
+# =========================================
+# /projeto
+#   └── index.html
+
+```
+
+```bash
+# =========================================
+# ⚠️ OBSERVAÇÕES
+# =========================================
+# - Depende de conexão com internet
+# - API pode não conter 100% dos veículos
+# - Sem sistema de cache (tudo em tempo real)
+# - Sem tratamento avançado de erro
+
+```
+
+```bash
+# =========================================
+# 💡 IDEIAS DE MELHORIA
+# =========================================
+# - Adicionar histórico de consultas
+# - Salvar veículos favoritos
+# - Integrar com mapa (ex: localização de venda)
+# - Criar versão mobile (APK)
+# - Adicionar imagens dos veículos
+
+```
+
+```bash
+# =========================================
+# 👨‍💻 AUTOR
+# =========================================
+# Desenvolvido por: CAAS
+
+
+```
