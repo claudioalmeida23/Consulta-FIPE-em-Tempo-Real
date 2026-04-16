@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIPE</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #111;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+}
+
+.container {
+    width: 350px;
+}
+
+select, button {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+}
+
+button {
+    background: green;
+    color: white;
+    border: none;
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+button.active {
+    opacity: 1;
+}
+
+#resultado {
+    display: none;
+    background: #222;
+    padding: 15px;
+    margin-top: 10px;
+}
+
+footer {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 11px;
+    color: #777;
+    border-top: 1px solid #333;
+    padding-top: 15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Consulta FIPE</h2>
+
+<select id="tipo">
+<option value="">Tipo</option>
+<option value="carros">Carros</option>
+<option value="motos">Motos</option>
+<option value="caminhoes">Caminhões</option>
+</select>
+
+<select id="marca" disabled></select>
+<select id="modelo" disabled></select>
+<select id="ano" disabled></select>
+
+<button id="btn">Consultar</button>
+
+<div id="resultado">
+    <div id="veiculo"></div>
+    <div id="preco"></div>
+    <div id="detalhe"></div>
+</div>
+
+</div>
+
+<footer>
+🚗 FIPE App | Desenvolvido por <b>CAAS</b><br><br>
+
+🔌 API: :brasilapi.com.br
+📊 Dados: Em Tempo Real  
+
+</footer>
+
+<script>
+const API = "https://brasilapi.com.br/api/fipe/v1";
+
+const tipo = document.getElementById("tipo");
+const marca = document.getElementById("marca");
+const modelo = document.getElementById("modelo");
+const ano = document.getElementById("ano");
+const btn = document.getElementById("btn");
+
+const resultado = document.getElementById("resultado");
+const veiculo = document.getElementById("veiculo");
+const preco = document.getElementById("preco");
+const detalhe = document.getElementById("detalhe");
+
+function reset() {
+    marca.innerHTML = "";
+    modelo.innerHTML = "";
+    ano.innerHTML = "";
+
+    marca.disabled = true;
+    modelo.disabled = true;
+    ano.disabled = true;
+
+    btn.classList.remove("active");
+    resultado.style.display = "none";
+}
+
+/* ===== TIPO ===== */
+tipo.addEventListener("change", async () => {
+    reset();
+
+    if (!tipo.value) return;
+
+    try {
+        const res = await fetch(`${API}/${tipo.value}/marcas`);
+        const data = await res.json();
+
+        marca.innerHTML = "<option value=''>Selecione Marca</option>";
+
+        data.forEach(m => {
+            marca.innerHTML += `<option value="${m.codigo}">${m.nome}</option>`;
+        });
+
+        marca.disabled = false;
+
+    } catch (e) {
+        alert("Erro ao carregar marcas");
+        console.error(e);
+    }
+});
+
+/* ===== MARCA ===== */
+marca.addEventListener("change", async () => {
+
+    if (!marca.value) return;
+
+    try {
+        const res = await fetch(`${API}/${tipo.value}/marcas/${marca.value}/modelos`);
+        const data = await res.json();
+
+        modelo.innerHTML = "<option value=''>Selecione Modelo</option>";
+
+        data.modelos.forEach(m => {
+            modelo.innerHTML += `<option value="${m.codigo}">${m.nome}</option>`;
+        });
+
+        modelo.disabled = false;
+
+    } catch (e) {
+        alert("Erro ao carregar modelos");
+        console.error(e);
+    }
+});
+
+/* ===== MODELO ===== */
+modelo.addEventListener("change", async () => {
+
+    if (!modelo.value) return;
+
+    try {
+        const res = await fetch(`${API}/${tipo.value}/marcas/${marca.value}/modelos/${modelo.value}/anos`);
+        const data = await res.json();
+
+        ano.innerHTML = "<option value=''>Selecione Ano</option>";
+
+        data.forEach(a => {
+            ano.innerHTML += `<option value="${a.codigo}">${a.nome}</option>`;
+        });
+
+        ano.disabled = false;
+
+    } catch (e) {
+        alert("Erro ao carregar anos");
+        console.error(e);
+    }
+});
+
+/* ===== ANO ===== */
+ano.addEventListener("change", () => {
+    if (ano.value) {
+        btn.classList.add("active");
+    }
+});
+
+/* ===== CONSULTA ===== */
+btn.addEventListener("click", async () => {
+
+    try {
+        const res = await fetch(`${API}/${tipo.value}/marcas/${marca.value}/modelos/${modelo.value}/anos/${ano.value}`);
+        const d = await res.json();
+
+        veiculo.innerText = `${d.Marca} ${d.Modelo}`;
+        preco.innerText = d.Valor;
+        detalhe.innerText = `Ano: ${d.AnoModelo} | Combustível: ${d.Combustivel}`;
+
+        resultado.style.display = "block";
+
+    } catch (e) {
+        alert("Erro ao consultar preço");
+        console.error(e);
+    }
+});
+</script>
+
+</body>
+</html>
